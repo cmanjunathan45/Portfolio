@@ -1,0 +1,388 @@
+/* 
+   ANTI-SLOP AESTHETIC: "The Redacted Terminal"
+   - No rounded corners
+   - Monospace only
+   - High contrast
+   - Raw, brutalist layout
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+
+:root {
+    --bg-color: #050505;
+    --panel-bg: #0a0a0a;
+    --text-primary: #e0e0e0;
+    --text-dim: #666;
+    --accent-alert: #ff3300; /* Red/Orange for vulnerabilities */
+    --accent-sys: #7CFF9D;   /* Pale Green for AppSec feel */
+    --accent-info: #00ccff;  /* Cyan for links */
+    --border-color: #333;
+    --grid-gap: 8px;
+}
+
+/* Developer Mode Overrides */
+body.dev-mode {
+    --accent-sys: #00ccff;   /* Cyan for Dev Mode */
+    --accent-alert: #ff00ff; /* Magenta for Dev Mode */
+    --accent-info: #00ff41;  /* Green for Dev Mode */
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-family: 'Space Mono', monospace;
+    line-height: 1.5;
+    overflow-x: hidden;
+    font-size: 14px;
+}
+
+/* CRT Scanline Effect */
+body::before {
+    content: " ";
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+    z-index: 2;
+    background-size: 100% 2px, 3px 100%;
+    pointer-events: none;
+}
+
+a {
+    color: var(--accent-info);
+    text-decoration: none;
+    position: relative;
+    transition: color 0.2s, background-color 0.2s;
+}
+
+a:hover {
+    background-color: rgba(0, 204, 255, 0.2); /* Semi-transparent background */
+    color: #fff; /* High contrast text */
+    text-shadow: 0 0 5px var(--accent-info);
+}
+
+/* Dev mode link hover override */
+body.dev-mode a:hover {
+    background-color: rgba(0, 255, 65, 0.2);
+    text-shadow: 0 0 5px var(--accent-info);
+}
+
+/* Layout Grid */
+.grid-container {
+    display: grid;
+    grid-template-columns: 300px 1fr; /* Increased sidebar width */
+    min-height: 100vh;
+    border: 1px solid var(--border-color);
+    margin: 40px auto; /* Increased margin and centered */
+    max-width: 1500px; /* Max width constraint */
+    gap: var(--grid-gap);
+    position: relative;
+    z-index: 1;
+}
+
+/* Sidebar / Terminal Status */
+.sidebar {
+    border-right: 1px solid var(--border-color);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar > div {
+    margin-top: 25px; /* Vertical spacing between blocks */
+    padding-top: 25px;
+    border-top: 1px solid rgba(51, 51, 51, 0.5); /* Subtle separator */
+}
+
+.sidebar > div:first-of-type {
+    border-top: none;
+    padding-top: 0;
+    margin-top: 0;
+}
+
+/* Profile Picture */
+.profile-pic {
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    border: 1px solid var(--accent-sys);
+    filter: grayscale(100%) contrast(1.1); /* Reduced contrast */
+    margin-bottom: 20px;
+    display: block;
+}
+
+.profile-pic:hover {
+    filter: none;
+}
+
+.profile-header h1 {
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+    color: var(--accent-sys);
+}
+
+.profile-header h2 {
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    margin-bottom: 20px;
+}
+
+.contact-info {
+    font-size: 0.8rem;
+}
+
+.contact-item {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+}
+
+.contact-item i {
+    width: 20px;
+    color: var(--text-dim);
+}
+
+/* Main Content Area */
+.main-content {
+    padding: 0;
+}
+
+.section-panel {
+    border-bottom: 1px solid var(--border-color);
+    padding: 30px;
+}
+
+.section-panel:last-child {
+    border-bottom: none;
+}
+
+.section-title {
+    font-size: 1.2rem; /* Increased font size */
+    text-transform: uppercase;
+    border-left: 3px solid var(--accent-alert);
+    padding-left: 10px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.section-title::after {
+    content: '';
+    flex-grow: 1;
+    height: 1px;
+    background: var(--border-color);
+    margin-left: 15px;
+    opacity: 0.5; /* Reduced opacity */
+}
+
+/* Experience Items */
+.exp-item {
+    margin-bottom: 25px;
+    position: relative;
+    padding-left: 20px;
+}
+
+.exp-item::before {
+    content: '>';
+    position: absolute;
+    left: 0;
+    color: var(--accent-alert);
+}
+
+.exp-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    flex-wrap: wrap;
+}
+
+.exp-role {
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.exp-company {
+    color: var(--text-dim);
+}
+
+.exp-date {
+    font-family: 'Space Mono', monospace;
+    color: var(--accent-sys);
+    font-size: 0.8rem;
+}
+
+.exp-details ul {
+    list-style: none;
+    margin-top: 10px;
+}
+
+.exp-details li {
+    margin-bottom: 5px;
+    color: #bbb;
+    font-size: 0.9rem;
+}
+
+.exp-details li::before {
+    content: '- ';
+    color: var(--text-dim);
+}
+
+/* Skills Grid */
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+}
+
+.skill-tag {
+    border: 1px solid var(--border-color);
+    padding: 8px;
+    font-size: 0.85rem;
+    text-align: center;
+    transition: all 0.2s;
+    cursor: crosshair;
+}
+
+.skill-tag:hover {
+    border-color: var(--accent-sys);
+    box-shadow: 0 0 10px rgba(0, 255, 65, 0.2);
+    color: var(--accent-sys);
+}
+
+/* Switch Portfolio Button */
+.switch-portfolio {
+    margin-top: auto;
+    border: 1px solid var(--accent-info);
+    padding: 15px;
+    text-align: center;
+    display: block;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    transition: 0.3s;
+}
+
+.switch-portfolio:hover {
+    background: var(--accent-info);
+    color: #000;
+    box-shadow: 0 0 15px var(--accent-info);
+}
+
+/* Glitch Animation for Name */
+.glitch {
+    position: relative;
+}
+
+.glitch::before,
+.glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.glitch::before {
+    left: 2px;
+    text-shadow: -1px 0 var(--accent-alert);
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim-1 5s infinite linear alternate-reverse;
+}
+
+.glitch::after {
+    left: -2px;
+    text-shadow: -1px 0 var(--accent-sys);
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim-2 5s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim-1 {
+    0% { clip: rect(20px, 9999px, 10px, 0); }
+    20% { clip: rect(50px, 9999px, 60px, 0); }
+    40% { clip: rect(10px, 9999px, 80px, 0); }
+    60% { clip: rect(30px, 9999px, 10px, 0); }
+    80% { clip: rect(70px, 9999px, 90px, 0); }
+    100% { clip: rect(40px, 9999px, 20px, 0); }
+}
+
+@keyframes glitch-anim-2 {
+    0% { clip: rect(60px, 9999px, 70px, 0); }
+    20% { clip: rect(10px, 9999px, 50px, 0); }
+    40% { clip: rect(90px, 9999px, 10px, 0); }
+    60% { clip: rect(30px, 9999px, 40px, 0); }
+    80% { clip: rect(80px, 9999px, 20px, 0); }
+    100% { clip: rect(10px, 9999px, 90px, 0); }
+}
+
+/* Accessibility: Reduce motion */
+@media (prefers-reduced-motion: reduce) {
+    .glitch::before,
+    .glitch::after {
+        animation: none;
+        display: none;
+    }
+}
+
+/* Mobile Optimization */
+@media (max-width: 768px) {
+    .grid-container {
+        grid-template-columns: 1fr;
+        margin: 10px;
+        width: auto;
+    }
+
+    .sidebar {
+        padding: 10px;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .profile-pic {
+        width: 70%;
+        margin: 0 auto 20px auto;
+    }
+
+    .profile-header {
+        text-align: center;
+    }
+
+    .contact-info {
+        text-align: center;
+    }
+    
+    /* Collapsible Education on Mobile */
+    .education-mini {
+        text-align: center;
+    }
+}    20% { clip: rect(10px, 9999px, 20px, 0); }
+    40% { clip: rect(80px, 9999px, 10px, 0); }
+    60% { clip: rect(30px, 9999px, 50px, 0); }
+    80% { clip: rect(20px, 9999px, 90px, 0); }
+    100% { clip: rect(50px, 9999px, 60px, 0); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .grid-container {
+        grid-template-columns: 1fr;
+        margin: 0;
+        border: none;
+    }
+    
+    .sidebar {
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+    }
+}
